@@ -17,6 +17,6 @@ import HomepageRoot from './components/HomepageRoot.vue'
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #888888);
+  filter: drop-shadow(0 0 2em #ffffff);
 }
 </style>

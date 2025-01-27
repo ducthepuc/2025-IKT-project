@@ -1,12 +1,12 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import HomepageRoot from './components/HomepageRoot.vue'
 </script>
 
 <template>
   <div>
     <img src="./assets/placeholder_catto.jpeg" class="logo" alt="goobert_image">
   </div>
-  <HelloWorld msg="SLC = silly little cats" />
+  <HomepageRoot msg="SLC = silly little cats" />
 </template>
 
 <style scoped>

@@ -15,7 +15,7 @@ const count = ref(0)
     <button type="button" @click="count++">your loaf rank is: {{ count }}</button>
     <p>
       Edit
-      <code>components/HelloWorld.vue</code> to test HMR
+      <code>components/HomepageRoot.vue</code> to test HMR
     </p>
     <p>Its really cool. Also, use Fleet IDE, cause its beautiful:)</p>
   </div>

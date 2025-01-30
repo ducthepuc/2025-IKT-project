@@ -1,12 +1,14 @@
 <script setup>
 import HomepageRoot from './components/HomepageRoot.vue'
+import Navbar from './components/Navbar.vue'
 </script>
 
 <template>
+  <Navbar title1="Learn more" destination1="#docs" title2="Little game" destination2="#game"/>
   <div>
-    <img src="./assets/placeholder_catto.jpeg" class="logo" alt="goobert_image">
+    <img src="./assets/development.png" class="logo" alt="construction_image">
   </div>
-  <HomepageRoot msg="SLC = silly little cats" />
+  <HomepageRoot msg="SLC Homepage is currently under development" />
 </template>
 
 <style scoped>

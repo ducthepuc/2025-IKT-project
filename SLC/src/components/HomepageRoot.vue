@@ -11,16 +11,15 @@ const count = ref(0)
 <template>
   <h1>{{ msg }}</h1>
 
-  <div class="card">
-    <button type="button" @click="count++">your loaf rank is: {{ count }}</button>
+  <div class="card" id="game">
+    <button type="button" @click="count++">your jail sentence is: {{ count }} years</button>
     <p>
-      Edit
-      <code>components/HomepageRoot.vue</code> to test HMR
+      We use Vue and Go for this webshop project
     </p>
     <p>Its really cool. Also, use Fleet IDE, cause its beautiful:)</p>
   </div>
 
-  <p>
+  <p id="docs">
     Check out
     <a href="https://github.com/ducthepuc/2025-IKT-project" target="_blank"
       >this project's github</a

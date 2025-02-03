@@ -1,14 +1,11 @@
 <script setup>
-import HomepageRoot from './components/HomepageRoot.vue'
+import Card from './components/ProductCard.vue'
 import Navbar from './components/Navbar.vue'
 </script>
 
 <template>
-  <Navbar title1="Learn more" destination1="#docs" title2="Little game" destination2="#game"/>
-  <div>
-    <img src="./assets/development.png" class="logo" alt="construction_image">
-  </div>
-  <HomepageRoot msg="SLC Homepage is currently under development" />
+  <Navbar title1="Shop" destination1="#docs" title2="About us" destination2="#game"/>
+  <Card item_name="doobert" item_price="$800" image_path="placeholder_catto.jpeg"></Card>
 </template>
 
 <style scoped>

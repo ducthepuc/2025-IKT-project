@@ -18,7 +18,7 @@ defineProps({
 
 <style scoped>
 .navbar {
-  background-color: #333333;
+  background-color: #219ebc;
 }
 
 .menu {

@@ -22,6 +22,10 @@
       <button type="submit">Register</button>
     </form>
 
+    <button @click="deleteAllUsers">Delete All Users</button>
+    <br>
+    <button @click="fetchUsers">Log All Users</button>
+
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
   </div>
 </template>
@@ -106,6 +110,22 @@ export default {
         }
       }
     },
+    async deleteAllUsers() {
+      try {
+        const response = await axios.delete('http://localhost:5194/api/auth/delete/-1');
+        alert(response.data.message); // Show success message
+      } catch (error) {
+        console.error("Error deleting users:", error.response?.data || error.message);
+      }
+    },
+    async fetchUsers() {
+      try {
+        const response = await axios.get("http://localhost:5194/api/auth/GetAll");
+        console.log(response.data); // This will log the list of users
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    }
   },
 };
 </script>

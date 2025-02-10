@@ -1,137 +1,81 @@
-<template>
-  <div>
-    <!-- Login Form -->
-    <form @submit.prevent="login">
-      <input v-model="username" type="text" placeholder="Username" required />
-      <br />
-      <input v-model="password" type="password" placeholder="Password" required />
-      <br />
-      <button type="submit">Login</button>
-      <br />
-      <button type="button" @click="logout">Logout</button>
-    </form>
+<script setup>
+import Navbar from './components/Navbar.vue';
+import ProductCard from './components/ProductCard.vue';
+import AuthModal from './components/AuthModal.vue';
+import { ref } from 'vue';
 
-    <!-- Register Form -->
-    <form @submit.prevent="register">
-      <input v-model="newUser.username" type="text" placeholder="Username" required />
-      <br />
-      <input v-model="newUser.password" type="password" placeholder="Password" required />
-      <br />
-      <input v-model="newUser.email" type="email" placeholder="Email" required />
-      <br />
-      <button type="submit">Register</button>
-    </form>
+const title1 = "Shop";
+const destination1 = "#shop";
+const title2 = "About Us";
+const destination2 = "#about";
 
-    <button @click="deleteAllUsers">Delete All Users</button>
-    <br>
-    <button @click="fetchUsers">Log All Users</button>
+const isLoginModalOpen = ref(false);
+const isRegisterModalOpen = ref(false);
 
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-  </div>
-</template>
+const showLoginModal = () => {
+    isLoginModalOpen.value = true;
+};
 
-<script>
-import axios from "axios";
+const closeLoginModal = () => {
+    isLoginModalOpen.value = false;
+};
 
-export default {
-  data() {
-    return {
-      username: "",
-      password: "",
-      errorMessage: "",
-      newUser: {
-        username: "",
-        password: "",
-        email: ""
-      },
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        const response = await axios.post("http://localhost:5194/api/auth/login", {
-          UserName: this.username,
-          Password: this.password,
-        });
+const showRegisterModal = () => {
+    isRegisterModalOpen.value = true;
+};
 
-        console.log(response.data);
-        localStorage.setItem("authToken", response.data.token);
-
-      } catch (error) {
-        if (error.response && error.response.data) {
-          this.errorMessage = error.response.data.message;
-        } else {
-          this.errorMessage = "";
-        }
-      }
-    },
-
-    async logout() {
-      try {
-        const token = localStorage.getItem("authToken");
-
-        if (!token) {
-          console.log("No token found, user is already logged out.");
-          return;
-        }
-
-        await axios.post(
-          "http://localhost:5194/api/auth/logout",
-          {},
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
-
-        localStorage.removeItem("authToken");
-        console.log("Logged out successfully");
-      } catch (error) {
-        console.error("Logout failed:", error);
-      }
-    },
-
-    async register() {
-      try {
-        const response = await axios.post("http://localhost:5194/api/auth/register", {
-          UserName: this.newUser.username,
-          Password: this.newUser.password,
-          Email: this.newUser.email,
-        });
-
-
-        console.log(response.data);
-      } catch (error) {
-        if (error.response && error.response.data) {
-          this.errorMessage = error.response.data.message;
-        } else {
-          this.errorMessage = "An unexpected error occurred during registration.";
-        }
-      }
-    },
-    async deleteAllUsers() {
-      try {
-        const response = await axios.delete('http://localhost:5194/api/auth/delete/-1');
-        alert(response.data.message); // Show success message
-      } catch (error) {
-        console.error("Error deleting users:", error.response?.data || error.message);
-      }
-    },
-    async fetchUsers() {
-      try {
-        const response = await axios.get("http://localhost:5194/api/auth/GetAll");
-        console.log(response.data); // This will log the list of users
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    }
-  },
+const closeRegisterModal = () => {
+    isRegisterModalOpen.value = false;
 };
 </script>
 
+<template>
+    <div id="app">
+        <!-- Navbar -->
+        <Navbar
+            :title1="title1"
+            :destination1="destination1"
+            :title2="title2"
+            :destination2="destination2"
+            @show-login="showLoginModal"
+            @show-register="showRegisterModal"
+        />
+
+        <!-- Main Content -->
+        <main>
+            <section id="shop">
+                <h1>Shop Section</h1>
+                <div class="product-grid">
+                    <ProductCard
+                        v-for="i in 3"
+                        :key="i"
+                        item_name="Doobert"
+                        item_price="$100"
+                        image_path="placeholder_catto.jpeg"
+                    />
+                </div>
+            </section>
+            <section id="about">
+                <h1>About Us</h1>
+                <p>This is the about us section.</p>
+            </section>
+        </main>
+
+        <!-- Authentication Modals -->
+        <AuthModal
+            :isLoginModalOpen="isLoginModalOpen"
+            :isRegisterModalOpen="isRegisterModalOpen"
+            @close-login="closeLoginModal"
+            @close-register="closeRegisterModal"
+        />
+    </div>
+</template>
+
 <style scoped>
-.error {
-  color: red;
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
 }
 </style>

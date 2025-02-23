@@ -3,7 +3,7 @@
 
 ## 2024/25-ös év végi IKT projektünk: egy webshop
 
-[![Stack image](Photoroom-20250222_223006.png)](images/Photoroom-20250222_223006.png)
+[![Stack image](Photoroom-20250222_223006.png)](Photoroom-20250222_223006.png)
 
 ## Technológia
 

@@ -23,5 +23,6 @@ Egyszerű, de hatékony webshopot készítünk, amely a következő funkciókat 
 *   Reszponzív design, amely minden eszközön jól működik.
 *   Hatékony és gyors működés.
 
+[![screeny](screenshot.png)](screenshot.png)
 
 Nyugalom, egyszer majd dokumentáció is lesz!😉

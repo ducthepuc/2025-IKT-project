@@ -1,11 +1,13 @@
 <script setup>
-import { computed } from 'vue';
+import { defineProps, computed } from 'vue';
+import { BImg, BButton } from 'bootstrap-vue-next';
 
 const props = defineProps({
     item_name: String,
-    item_id: String,
     item_price: String,
     image_path: String,
+    key: String,
+    searchQuery: String
 });
 
 const resolvedImagePath = computed(() => {
@@ -14,11 +16,11 @@ const resolvedImagePath = computed(() => {
 </script>
 
 <template>
-    <div class="product-card">
-        <img :src="resolvedImagePath" alt="product_image" class="product-image" />
-        <h3>{{ item_name }}</h3>
+    <div class="product-card" >
+        <BImg thumbnail fluid rounded :src="resolvedImagePath" alt="product_image" class="product-image" />
+        <h3 name="Name">{{ item_name }}</h3>
         <p>{{ item_price }}</p>
-        <button>View</button>
+        <BButton variant="primary" @click="$emit('view-button-clicked')">View</BButton>
     </div>
 </template>
 
@@ -29,6 +31,8 @@ const resolvedImagePath = computed(() => {
     width: 200px;
     text-align: center;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.1s ease-in-out;
 }
 .product-image {
     width: 100%;
@@ -36,24 +40,7 @@ const resolvedImagePath = computed(() => {
     object-fit: cover;
     border-radius: 8px;
 }
-h3 {
-    font-size: 1.2em;
-    margin-top: 10px;
-}
-p {
-    color: #555;
-    font-size: 1em;
-}
-button {
-    background-color: #219ebc;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    cursor: pointer;
-    border-radius: 5px;
-}
-button:hover {
-    background-color: #197a8b;
+.product-card:hover {
+    scale: 1.1;
 }
 </style>

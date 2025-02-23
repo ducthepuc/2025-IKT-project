@@ -1,58 +1,57 @@
 <script setup>
-import Navbar from './components/Navbar.vue';
 import ProductCard from './components/ProductCard.vue';
-import AuthModal from './components/AuthModal.vue';
-import { ref } from 'vue';
+import { computed,ref } from 'vue';
+import { BNav, BNavItem, BFormInput, BAlert } from 'bootstrap-vue-next';
 
-const title1 = "Shop";
-const destination1 = "#shop";
-const title2 = "About Us";
-const destination2 = "#about";
+const products = ref([
+  { item_name: "Doobert", item_price: "$500", image_path: "doobert.jpeg" },
+  { item_name: "Xiaoje Cat", item_price: "$1000", image_path: "xiaoje.jpeg" },
+  { item_name: "Little Puff", item_price: "$2500", image_path: "puff.jpeg" },
+  { item_name: "Nala Cat", item_price: "$700", image_path: "nala.jpeg" },
+  { item_name: "Stryker", item_price: "$10000", image_path: "stryker.jpeg" },
+]);
 
-const isLoginModalOpen = ref(false);
-const isRegisterModalOpen = ref(false);
+const searchQuery = ref("");
 
-const showLoginModal = () => {
-    isLoginModalOpen.value = true;
-};
+function updateSearchList(query) {
+  searchQuery.value = query;
+}
 
-const closeLoginModal = () => {
-    isLoginModalOpen.value = false;
-};
+const filteredProducts = computed(() => {
+  return products.value.filter((product) => {
+    return product.item_name.toLowerCase().includes(searchQuery.value.toLowerCase());
+  });
+});
 
-const showRegisterModal = () => {
-    isRegisterModalOpen.value = true;
-};
+const showAlert = ref(false);
 
-const closeRegisterModal = () => {
-    isRegisterModalOpen.value = false;
-};
+function handleViewButtonClicked() {
+    showAlert.value = true;
+}
+
 </script>
 
 <template>
     <div id="app">
-        <!-- Navbar -->
-        <Navbar
-            :title1="title1"
-            :destination1="destination1"
-            :title2="title2"
-            :destination2="destination2"
-            @show-login="showLoginModal"
-            @show-register="showRegisterModal"
-        />
-
+        <BAlert variant="warning" v-model="showAlert" dismissible>Thanks for visiting SLC! Currently our shop is under construction...</BAlert>
+        <BNav pills class="mb-1">
+            <BNavItem href="#shop" active>Shop</BNavItem>
+            <BNavItem href="#about">About us</BNavItem>
+            <BFormInput aria-label="Input" class="mr-1" placeholder="Search for cattos..." v-model="searchQuery" @input="updateSearchList"/>
+        </BNav>
         <!-- Main Content -->
         <main>
             <section id="shop">
                 <h1>Shop Section</h1>
                 <div class="product-grid">
-                    <ProductCard
-                        v-for="i in 3"
-                        :key="i"
-                        item_name="Doobert"
-                        item_price="$100"
-                        image_path="placeholder_catto.jpeg"
-                    />
+                  <ProductCard
+                    v-for="product in filteredProducts"
+                    :key="product.item_name"
+                    :item_name="product.item_name"
+                    :item_price="product.item_price"
+                    :image_path="product.image_path"
+                    @view-button-clicked="handleViewButtonClicked"
+                  />
                 </div>
             </section>
             <section id="about">
@@ -60,14 +59,6 @@ const closeRegisterModal = () => {
                 <p>This is the about us section.</p>
             </section>
         </main>
-
-        <!-- Authentication Modals -->
-        <AuthModal
-            :isLoginModalOpen="isLoginModalOpen"
-            :isRegisterModalOpen="isRegisterModalOpen"
-            @close-login="closeLoginModal"
-            @close-register="closeRegisterModal"
-        />
     </div>
 </template>
 

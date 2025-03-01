@@ -24,5 +24,3 @@ Egyszerű, de hatékony webshopot készítünk, amely a következő funkciókat 
 *   Hatékony és gyors működés.
 
 [![screeny](screenshot.png)](screenshot.png)
-
-Nyugalom, egyszer majd dokumentáció is lesz!😉

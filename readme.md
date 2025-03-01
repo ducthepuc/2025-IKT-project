@@ -8,7 +8,7 @@
 ## Technológia
 
 *   **Frontend:** Vue.js
-*   **Backend:** C#
+*   **Backend:** Nem is kell
 
 ## Funkcionalitás
 

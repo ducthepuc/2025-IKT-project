@@ -7,7 +7,6 @@ const props = defineProps({
     item_price: String,
     image_path: String,
     key: String,
-    searchQuery: String
 });
 
 const resolvedImagePath = computed(() => {

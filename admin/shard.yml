@@ -1,0 +1,11 @@
+name: crystal_form_backend
+version: 0.1.0
+authors:
+  - Your Name <your.email@example.com>
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+crystal: "~> 1.0"
+license: MIT

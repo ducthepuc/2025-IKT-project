@@ -1,7 +1,7 @@
 <template>
     <div class="product-card" >
-        <BImg thumbnail fluid rounded :src="image_path" alt="product_image" class="product-image" />
-        <h3 name="Name">{{ item_name }}</h3>
+        <BImg thumbnail fluid rounded :src="resolvedImagePath" alt="product_image" class="product-image" />
+        <h3>{{ item_name }}</h3>
         <p>{{ item_price }}</p>
         <BButton variant="primary" @click="$emit('view-button-clicked', id)">View</BButton>
     </div>
@@ -21,7 +21,11 @@ export default {
         item_price: String,
         image_path: String,
     },
-    // Remove the resolvedImagePath computed property as it's no longer needed
+    computed: {
+      resolvedImagePath() {
+        return new URL(`../assets/${this.image_path}`, import.meta.url).href;
+      }
+    }
 };
 </script>
 

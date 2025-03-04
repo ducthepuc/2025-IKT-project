@@ -1,17 +1,19 @@
 require "kemal"
 require "file_utils"
 require "json"
+require "io"
+require "path"
 
-directory = "uploads"
+directory = "../silly-little-cats/src/assets/images"
 FileUtils.mkdir_p(directory) unless Dir.exists?(directory)
 
-Kemal.config.public_folder = "uploads" # Allow image serving
-
+Kemal.config.public_folder = directory # using the full path here is more reliable
 post "/api/upload" do |env|
     name = env.params.body["name"]?.to_s
     price = env.params.body["price"]?.to_s
     description = env.params.body["description"]?.to_s
     image = env.params.files["image"]?
+
 
     if name.empty? || price.empty? || description.empty?
         env.response.status_code = 400
@@ -21,9 +23,10 @@ post "/api/upload" do |env|
 
         image_filename = ""
         if image
-            image_filename = "#{directory}/#{image.filename}"
-            
-            File.open(image_filename, "wb") do |file|
+            image_filename = image.filename
+            full_image_path = "#{directory}/#{image_filename}"
+
+            File.open(full_image_path, "wb") do |file|
                 IO.copy(image.tempfile, file)
             end
         end
@@ -42,11 +45,14 @@ get "/api/get-products" do |env|
 
     File.each_line("data/data.txt") do |line|
         if match = line.match(/Name:\s*(.+), Price:\s*(\d+), Description:\s*(.+), Image:\s*(.+)/)
+            image_path = match[4].strip # Get the full path from the file
+            index = image_path.rindex('/') # Store the index
+            filename = index ? image_path[(index + 1)..] : image_path # Extract the filename
             products << {
                 "name"        => JSON::Any.new(match[1].strip),
                 "price"       => JSON::Any.new(match[2].to_i),
                 "description" => JSON::Any.new(match[3].strip),
-                "image"       => JSON::Any.new("/#{match[4].strip}")
+                "image"       => JSON::Any.new("/#{filename}") # Use the filename
             }
         end
     end
@@ -54,6 +60,7 @@ get "/api/get-products" do |env|
     env.response.content_type = "application/json"
     products.to_json
 end
+
 
 before_all do |env|
     env.response.headers["Access-Control-Allow-Origin"] = "*"

@@ -8,10 +8,10 @@
                   <ProductCard
                     :id="product.id"
                     v-for="product in filteredProducts"
-                    :key="product.item_name"
-                    :item_name="product.item_name"
-                    :item_price="product.item_price"
-                    :image_path="product.image_path"
+                    :key="product.name"
+                    :item_name="product.name"
+                    :item_price="product.price"
+                    :image_path="product.image"
                     @view-button-clicked="handleViewButtonClicked"
                   />
                 </div>
@@ -27,12 +27,6 @@
 import ProductCard from '../components/ProductCard.vue';
 import { BFormInput } from 'bootstrap-vue-next';
 import { useRouter } from 'vue-router';
-import doobert from '@/assets/images/doobert.jpeg';
-import xiaoje from '@/assets/images/xiaoje.jpeg';
-import puff from '@/assets/images/puff.jpeg';
-import nala from '@/assets/images/nala.jpeg';
-import stryker from '@/assets/images/stryker.jpeg';
-import luna from '@/assets/images/luna_cat.jpeg';
 
 export default {
   name: 'HomeView',
@@ -46,16 +40,12 @@ export default {
   },
   data() {
     return {
-      products: [
-        { id: 1, item_name: "Doobert", item_price: "$500", image_path: doobert },
-        { id: 2, item_name: "Xiaoje Cat", item_price: "$1000", image_path: xiaoje },
-        { id: 3, item_name: "Little Puff", item_price: "$2500", image_path: puff },
-        { id: 4, item_name: "Nala Cat", item_price: "$700", image_path: nala },
-        { id: 5, item_name: "Stryker", item_price: "$10000", image_path: stryker },
-        { id: 6, item_name: "Luna", item_price: "$690", image_path: luna },
-      ],
+      products: [],
       searchQuery: String(""),
     }
+  },
+  async created() {
+    this.products = await this.fetchProducts()
   },
   methods: {
     updateSearchList(query) {
@@ -64,6 +54,13 @@ export default {
     handleViewButtonClicked(id) {
       this.router.push(`/product/${id}`);
     },
+    async fetchProducts() {
+      const res = await fetch(`http://localhost:3000/api/get-products`)
+
+      const data = await res.json();
+
+      return data;
+    }
   },
   computed: {
     filteredProducts() {

@@ -1,2 +1,1 @@
-Name: doobert, Price: 2, Description: doob loaf, Image: uploads/1.jpg
-Name: idk749, Price: 342, Description: idk, Image: uploads/1.jpg
+Name: gregory is KING, Price: 69420, Description: gregory is the best, Image: demo-pfp.png

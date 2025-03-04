@@ -8,7 +8,7 @@
 ## Technológia
 
 *   **Frontend:** Vue.js
-*   **Backend:** Nem is kell
+*   **Backend:** Crystal
 
 ## Funkcionalitás
 

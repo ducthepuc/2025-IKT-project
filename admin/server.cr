@@ -7,7 +7,7 @@ require "path"
 directory = "../silly-little-cats/src/assets/images"
 FileUtils.mkdir_p(directory) unless Dir.exists?(directory)
 
-Kemal.config.public_folder = directory # using the full path here is more reliable
+Kemal.config.public_folder = directory 
 post "/api/upload" do |env|
     name = env.params.body["name"]?.to_s
     price = env.params.body["price"]?.to_s
@@ -45,14 +45,14 @@ get "/api/get-products" do |env|
 
     File.each_line("data/data.txt") do |line|
         if match = line.match(/Name:\s*(.+), Price:\s*(\d+), Description:\s*(.+), Image:\s*(.+)/)
-            image_path = match[4].strip # Get the full path from the file
-            index = image_path.rindex('/') # Store the index
-            filename = index ? image_path[(index + 1)..] : image_path # Extract the filename
+            image_path = match[4].strip
+            index = image_path.rindex('/')
+            filename = index ? image_path[(index + 1)..] : image_path
             products << {
                 "name"        => JSON::Any.new(match[1].strip),
                 "price"       => JSON::Any.new(match[2].to_i),
                 "description" => JSON::Any.new(match[3].strip),
-                "image"       => JSON::Any.new("/#{filename}") # Use the filename
+                "image"       => JSON::Any.new("/#{filename}")
             }
         end
     end

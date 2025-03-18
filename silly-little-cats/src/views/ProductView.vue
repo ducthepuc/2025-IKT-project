@@ -27,12 +27,6 @@
 
 <script>
 import { BButton, BIcon } from 'bootstrap-vue-next'
-import doobert from '@/assets/images/doobert.jpeg'
-import xiaoje from '@/assets/images/xiaoje.jpeg'
-import puff from '@/assets/images/puff.jpeg'
-import nala from '@/assets/images/nala.jpeg'
-import stryker from '@/assets/images/stryker.jpeg'
-import luna from '@/assets/images/luna_cat.jpeg'
 
 export default {
   name: 'ProductView',
@@ -57,15 +51,8 @@ export default {
     }
   },
   created() {
-    const products = [
-        { id: 1, item_name: "Doobert", item_price: "$500", image_path: doobert },
-        { id: 2, item_name: "Xiaoje Cat", item_price: "$1000", image_path: xiaoje },
-        { id: 3, item_name: "Little Puff", item_price: "$2500", image_path: puff },
-        { id: 4, item_name: "Nala Cat", item_price: "$700", image_path: nala },
-        { id: 5, item_name: "Stryker", item_price: "$10000", image_path: stryker },
-        { id: 6, item_name: "Luna", item_price: "$690", image_path: luna },
-    ];
-    this.product = products.find(p => p.id === parseInt(this.id));
+    
+    /* this.product = products.find(p => p.id === parseInt(this.id)); */
   }
 }
 </script>

@@ -4,7 +4,7 @@ require "json"
 require "io"
 require "path"
 
-directory = "../silly-little-cats/src/assets/images"
+directory = "../silly-little-cats/public/images"
 FileUtils.mkdir_p(directory) unless Dir.exists?(directory)
 
 Kemal.config.public_folder = directory 
@@ -52,7 +52,7 @@ get "/api/get-products" do |env|
                 "name"        => JSON::Any.new(match[1].strip),
                 "price"       => JSON::Any.new(match[2].to_i),
                 "description" => JSON::Any.new(match[3].strip),
-                "image"       => JSON::Any.new("/#{filename}")
+                "image" => JSON::Any.new("/images/#{filename}")
             }
         end
     end

@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="229f2d0c-8b48-477c-ac1c-55b43d9049eb" name="Changes" comment="Got started, got cooked by WEBSTORM TERMINAL :(:(:(:(:(">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/data/data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/admin/data/data.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/server.cr" beforeDir="false" afterPath="$PROJECT_DIR$/admin/server.cr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/silly-little-cats/src/components/ProductCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/silly-little-cats/src/components/ProductCard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/silly-little-cats/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/silly-little-cats/src/views/HomeView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/silly-little-cats/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/silly-little-cats/vue.config.js" afterDir="false" />
-    </list>
+    <list default="true" id="229f2d0c-8b48-477c-ac1c-55b43d9049eb" name="Changes" comment="Ermm... we made progress ig" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,7 +79,7 @@
       <workItem from="1737989713074" duration="10000" />
       <workItem from="1741080209480" duration="560000" />
       <workItem from="1741080779722" duration="340000" />
-      <workItem from="1741081291944" duration="4345000" />
+      <workItem from="1741081291944" duration="4502000" />
     </task>
     <task id="LOCAL-00001" summary="Got started, got cooked by WEBSTORM TERMINAL :(:(:(:(:(">
       <option name="closed" value="true" />
@@ -96,7 +89,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737965426423</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Ermm... we made progress ig">
+      <option name="closed" value="true" />
+      <created>1741085730973</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741085730973</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,6 +116,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Got started, got cooked by WEBSTORM TERMINAL :(:(:(:(:(" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got started, got cooked by WEBSTORM TERMINAL :(:(:(:(:(" />
+    <MESSAGE value="Ermm... we made progress ig" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ermm... we made progress ig" />
   </component>
 </project>

@@ -6,18 +6,18 @@
     
     <div class="product-container">
       <div class="product-image">
-        <img :src="product.image_path" :alt="product.item_name" />
+        <img :src="product?.image_path" :alt="product?.item_name" />
       </div>
       
       <div class="product-info">
-        <h1>{{ product.item_name }}</h1>
+        <h1>{{ product?.item_name }}</h1>
         <p class="description">
-          Meet {{ product.item_name }}, your potential new feline friend! This adorable cat has a unique personality 
+          Meet {{ product?.item_name }}, your potential new feline friend! This adorable cat has a unique personality 
           and is looking for a loving home. Each of our cats comes with a health check, vaccinations, 
           and a starter kit for their new home.
         </p>
         <div class="price-section">
-          <h2 class="price">{{ product.item_price }}</h2>
+          <h2 class="price">{{ product?.item_price }}</h2>
           <BButton variant="success" size="lg">Adopt Now</BButton>
         </div>
       </div>
@@ -48,11 +48,28 @@ export default {
   methods: {
     goBack() {
       this.$router.push('/')
+    },
+    formatPrice(price) {
+      if (!price) return ''
+      return `$${price.toLocaleString()}`
+    },
+    async fetchProduct() {
+      const res = await fetch(`http://localhost:3000/api/get-products`)
+      const data = await res.json()
+      const product = data.find(p => p.id === parseInt(this.id))
+      if (!product) {
+        throw new Error('Product not found')
+      }
+      return product
     }
   },
-  created() {
-    
-    /* this.product = products.find(p => p.id === parseInt(this.id)); */
+  async created() {
+    try {
+      this.product = await this.fetchProduct()
+    } catch (error) {
+      console.error('Error loading product:', error)
+      this.$router.push('/')
+    }
   }
 }
 </script>

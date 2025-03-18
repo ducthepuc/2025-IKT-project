@@ -10,7 +10,7 @@
                     v-for="product in filteredProducts"
                     :key="product.name"
                     :item_name="product.name"
-                    :item_price="product.price"
+                    :item_price="formatPrice(product.price)"
                     :image_path="product.image"
                     @view-button-clicked="handleViewButtonClicked"
                   />
@@ -53,6 +53,10 @@ export default {
     },
     handleViewButtonClicked(id) {
       this.router.push(`/product/${id}`);
+    },
+    formatPrice(price) {
+      if (!price) return ''
+      return `$${price.toLocaleString()}`
     },
     async fetchProducts() {
       const res = await fetch(`http://localhost:3000/api/get-products`)

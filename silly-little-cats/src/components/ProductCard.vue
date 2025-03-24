@@ -1,75 +1,163 @@
 <template>
-    <div class="product-card" >
-        <BImg thumbnail fluid rounded :src="image_path" alt="product_image" class="product-image" />
-        <h3>{{ item_name }}</h3>
-        <p>{{ item_price }}</p>
-        <BButton variant="primary" @click="$emit('view-button-clicked', id)">View</BButton>
+  <div class="product-card">
+    <div class="image-container">
+      <img :src="image_path" :alt="item_name" class="product-image" />
+      <div class="celebrity-badge">
+        <i class="fas fa-star"></i> Internet Celebrity
+      </div>
     </div>
+    <div class="card-content">
+      <h3>{{ item_name }}</h3>
+      <p class="price">{{ item_price }}</p>
+      <p class="followers">
+        <i class="fas fa-users"></i> {{ formatFollowers(followers) }}
+      </p>
+      <button class="view-button" @click="$emit('view-button-clicked', id)">
+        <i class="fas fa-paw"></i> Meet Me
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
-import { BImg, BButton } from 'bootstrap-vue-next';
-
 export default {
-    components: {
-        BImg,
-        BButton,
-    },
-    props: {
-        id: Number,
-        item_name: String,
-        item_price: String,
-        image_path: String,
-    },
-};
+  props: {
+    id: String,
+    item_name: String,
+    item_price: String,
+    image_path: String,
+    followers: {
+      type: Number,
+      default: 0
+    }
+  },
+  methods: {
+    formatFollowers(count) {
+      if (!count) return '0'
+      if (count >= 1000000) {
+        return (count / 1000000).toFixed(1) + 'M'
+      } else if (count >= 1000) {
+        return (count / 1000).toFixed(1) + 'K'
+      }
+      return count.toString()
+    }
+  }
+}
 </script>
 
 <style scoped>
 .product-card {
-  border: 1px solid #ddd;
-  padding: 1em;
-  width: 100%;
-  text-align: center;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.1s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
 }
 
 .product-image {
-  width: 100%;
-  height: 200px;
+  height: 280px;
   object-fit: cover;
-  border-radius: 8px;
+  transition: transform 0.3s;
 }
 
-.product-card h3 {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  margin: 0.5rem 0;
+.celebrity-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent-color);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
 }
 
-.product-card p {
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
+.card-content {
+  padding: 1.5rem;
+}
+
+.price {
+  color: var(--accent-color);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.followers {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+
+.view-button {
+  width: 100%;
+  border-radius: 25px;
+  background: var(--accent-color);
+  border: none;
+  padding: 12px;
 }
 
 @media (hover: hover) {
   .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow), 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card:hover .product-image {
     transform: scale(1.05);
   }
 }
 
 @media (max-width: 768px) {
+  .product-card {
+    max-width: 100%;
+  }
+  
   .product-image {
-    height: 180px;
+    height: 220px;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .price {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .product-card {
-    max-width: 300px;
-    margin: 0 auto;
+  .product-image {
+    height: 200px;
+  }
+  
+  .celebrity-badge {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  
+  .card-content h3 {
+    font-size: 1.1rem;
+  }
+  
+  .view-button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Disable hover effects on touch devices */
+@media (hover: none) {
+  .product-card:hover {
+    transform: none;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .product-card:hover .product-image {
+    transform: none;
   }
 }
 </style>

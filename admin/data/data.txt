@@ -1,1 +1,0 @@
-Name: Karcsi, Price: 100000000, Description: cigány, Image: karcsi.jpeg

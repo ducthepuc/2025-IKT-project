@@ -1,24 +1,53 @@
 <template>
   <div class="product-detail">
-    <BButton variant="outline-primary" class="back-button" @click="goBack">
-      <BIcon icon="arrow-left"></BIcon> Back to Shop
-    </BButton>
+    <button class="btn back-button" @click="goBack">
+      <i class="fas fa-arrow-left"></i> Back to Celebrities
+    </button>
     
-    <div class="product-container">
-      <div class="product-image">
-        <img :src="product?.image_path" :alt="product?.item_name" />
+    <div class="product-container" v-if="product">
+      <div class="product-image-section">
+        <img :src="product.image" :alt="product.name" />
+        <div class="social-stats">
+          <div class="stat">
+            <i class="fab fa-instagram"></i>
+            <span>{{ formatFollowers(product.instagram) }}</span>
+          </div>
+          <div class="stat">
+            <i class="fab fa-tiktok"></i>
+            <span>{{ formatFollowers(product.tiktok) }}</span>
+          </div>
+          <div class="stat">
+            <i class="fab fa-youtube"></i>
+            <span>{{ formatFollowers(product.youtube) }}</span>
+          </div>
+        </div>
       </div>
       
       <div class="product-info">
-        <h1>{{ product?.item_name }}</h1>
-        <p class="description">
-          Meet {{ product?.item_name }}, your potential new feline friend! This adorable cat has a unique personality 
-          and is looking for a loving home. Each of our cats comes with a health check, vaccinations, 
-          and a starter kit for their new home.
-        </p>
-        <div class="price-section">
-          <h2 class="price">{{ product?.item_price }}</h2>
-          <BButton variant="success" size="lg">Adopt Now</BButton>
+        <div class="celebrity-tag">
+          <i class="fas fa-star"></i> Internet Celebrity Cat
+        </div>
+        <h1>{{ product.name }}</h1>
+        <p class="description">{{ product.description }}</p>
+        <div class="features">
+          <div class="feature">
+            <i class="fas fa-heart"></i>
+            <span>Loving Personality</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-medal"></i>
+            <span>Award Winner</span>
+          </div>
+          <div class="feature">
+            <i class="fas fa-check-circle"></i>
+            <span>Verified Celebrity</span>
+          </div>
+        </div>
+        <div class="adoption-section">
+          <h2 class="price">{{ formatPrice(product.price) }}</h2>
+          <button class="btn adopt-button">
+            <i class="fas fa-home"></i> Adopt Now
+          </button>
         </div>
       </div>
     </div>
@@ -26,20 +55,8 @@
 </template>
 
 <script>
-import { BButton, BIcon } from 'bootstrap-vue-next'
-
 export default {
   name: 'ProductView',
-  components: {
-    BButton,
-    BIcon
-  },
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       product: null
@@ -54,18 +71,33 @@ export default {
       return `$${price.toLocaleString()}`
     },
     async fetchProduct() {
-      const res = await fetch(`http://localhost:3000/api/get-products`)
-      const data = await res.json()
-      const product = data.find(p => p.id === parseInt(this.id))
-      if (!product) {
-        throw new Error('Product not found')
+      try {
+        const res = await fetch(`http://localhost:3000/api/get-products`)
+        const data = await res.json()
+        const productId = this.$route.params.id
+        return data.find(p => p.id === productId)
+      } catch (error) {
+        console.error('Error fetching product:', error)
+        return null
       }
-      return product
+    },
+    formatFollowers(count) {
+      if (!count) return '0'
+      if (count >= 1000000) {
+        return (count / 1000000).toFixed(1) + 'M'
+      } else if (count >= 1000) {
+        return (count / 1000).toFixed(1) + 'K'
+      }
+      return count.toString()
     }
   },
   async created() {
     try {
       this.product = await this.fetchProduct()
+      if (!this.product) {
+        console.log('Product not found')
+        this.$router.push('/')
+      }
     } catch (error) {
       console.error('Error loading product:', error)
       this.$router.push('/')
@@ -76,105 +108,116 @@ export default {
 
 <style scoped>
 .product-detail {
-  padding: 2rem;
   max-width: 1200px;
-  margin: 0 auto;
-  width: 90%;
-}
-
-.back-button {
-  margin-bottom: 2rem;
+  margin: 40px auto;
+  padding: 20px;
 }
 
 .product-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
+  gap: 40px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--card-shadow);
 }
 
-.product-image img {
+.social-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.stat {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.celebrity-tag {
+  display: inline-block;
+  background: var(--accent-color);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.feature {
+  text-align: center;
+  padding: 15px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+}
+
+.adopt-button {
+  background: var(--accent-color);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 1.2rem;
   width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
 }
 
-.product-info {
-  padding: 1rem;
-}
-
-.product-info h1 {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
-}
-
-.description {
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
-  line-height: 1.6;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.price-section {
-  margin-top: 2rem;
-}
-
-.price {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  color: #2c3e50;
-  margin-bottom: 1rem;
-}
-
-/* Tablet */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .product-container {
-    gap: 2rem;
+    padding: 30px;
+    gap: 30px;
   }
   
-  .product-info {
-    padding: 0.5rem;
+  .features {
+    gap: 15px;
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
-  .product-detail {
-    padding: 1rem;
-    width: 95%;
-  }
-
   .product-container {
     grid-template-columns: 1fr;
   }
-
-  .product-image {
-    max-height: 50vh;
-    overflow: hidden;
+  
+  .product-image-section img {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
   }
-
-  .product-image img {
-    height: 100%;
-  }
-
-  .price-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  
+  .features {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Small Mobile */
 @media (max-width: 480px) {
   .product-detail {
-    padding: 0.5rem;
+    padding: 10px;
   }
-
-  .back-button {
-    margin-bottom: 1rem;
+  
+  .product-container {
+    padding: 20px;
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .social-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .stat {
+    font-size: 0.9rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
   }
 }
 </style>

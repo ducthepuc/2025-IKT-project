@@ -78,15 +78,21 @@ class RequestHandler(BaseHTTPRequestHandler):
                 if not os.path.exists(frontend_images_path):
                     os.makedirs(frontend_images_path)
 
-                fileitem = form['image'] if 'image' in form else None
-                if fileitem and fileitem.filename:
-                    filename = fileitem.filename
-                    filepath = os.path.join(frontend_images_path, filename)
-                    with open(filepath, 'wb') as f:
-                        f.write(fileitem.file.read())
+                fileitem = None
+                if 'image' in form:
+                    fileitem = form['image']
+                    if hasattr(fileitem, 'filename') and fileitem.filename:
+                        filename = os.path.basename(fileitem.filename)
+                        filepath = os.path.join(frontend_images_path, filename)
+                        
+                        file_content = fileitem.file.read()
+                        with open(filepath, 'wb') as f:
+                            f.write(file_content)
+                    else:
+                        filename = 'default.jpg'
                 else:
                     filename = 'default.jpg'
-
+                    
                 if not all([name, price, description]):
                     raise ValueError('Name, price, and description are required.')
 

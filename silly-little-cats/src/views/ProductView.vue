@@ -123,6 +123,19 @@ export default {
   box-shadow: var(--card-shadow);
 }
 
+.product-image-section {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.product-image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .social-stats {
   display: flex;
   justify-content: space-around;

@@ -26,6 +26,8 @@
             :item_price="formatPrice(product.price)"
             :image_path="product.image"
             :followers="product.instagram"
+            :tiktok="product.tiktok"
+            :youtube="product.youtube"
             @view-button-clicked="handleViewButtonClicked"
           />
         </div>

@@ -1,1 +1,9 @@
 ID: OaVkPzI, Name: aa, Price: 69, Description: fries in the bag tho, Image: demo-pfp.png, Instagram: 420, TikTok: 0, YouTube: 0
+ID: bLCWvLA, Name: Nala, Price: 50000, Description: World record holder cica, Image: nala.jpeg, Instagram: 4500000, TikTok: 236000, YouTube: 0
+ID: VHnIQjs, Name: Grumpy, Price: 25000, Description: Mad cica(R.I.P 2019), Image: grumpy.jpeg, Instagram: 2600000, TikTok: 0, YouTube: 0
+ID: CMsFnOT, Name: Lil Bub, Price: 100000, Description: Max aura, uprising rapper(R.I.P 2019), Image: lilbub.jpeg, Instagram: 2500000, TikTok: 0, YouTube: 0
+ID: PNMpg0w, Name: Lil Bub, Price: 643278462, Description: Rapper, Image: lilbub.jpeg, Instagram: 2500000, TikTok: 0, YouTube: 0
+ID: uvRgABa, Name: Suki cat, Price: 10000, Description: Cuki, Image: suki.jpg, Instagram: 1800000, TikTok: 0, YouTube: 0
+ID: pSz6k2F, Name: Calvin, Price: 700000, Description: Calvin klein inventor and ceo, Image: calvin.jpeg, Instagram: 226000, TikTok: 0, YouTube: 0
+ID: E1bzhI3, Name: Kurt, Price: 4347563456, Description: Very famus, Image: kurt.jpeg, Instagram: 0, TikTok: 10400000, YouTube: 0
+ID: TzBJQvh, Name: Walter Bishop, Price: 500000, Description: Big fashion sense, Image: walter.jpeg, Instagram: 0, TikTok: 180000, YouTube: 0

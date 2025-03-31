@@ -94,9 +94,15 @@
                 <span><i class="fab fa-tiktok"></i> {{ formatNumber(product.tiktok) }}</span>
                 <span><i class="fab fa-youtube"></i> {{ formatNumber(product.youtube) }}</span>
               </div>
+              <button @click="deleteProduct(product.id)">
+                <i class="fas fa-trash"></i> Delete
+              </button>
             </div>
           </div>
         </div>
+        <button v-if="products.length" class="delete-all-btn" @click="deleteAllProducts">
+          <i class="fas fa-trash-alt"></i> Delete All
+        </button>
       </section>
     </div>
   </div>
@@ -132,6 +138,46 @@ export default {
     }
   },
   methods: {
+    async deleteProduct(productId) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/delete-product?id=${productId}`, {
+          method: 'DELETE',
+        });
+        console.log(response);
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success) {
+            alert('Product deleted successfully');
+            this.products = this.products.filter(product => product.id !== productId);
+          } else {
+            alert('Failed to delete product: ' + result.message);
+          }
+        } else {
+          throw new Error('Network error or invalid response from server');
+        }
+      } catch (error) {
+        console.error('Error deleting product:', error);
+        alert('Error deleting product. Please try again.');
+      }
+    },
+    async deleteAllProducts() {
+      try {
+        const response = await fetch('http://localhost:3000/api/delete-all-products', {
+          method: 'DELETE',
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert('All products deleted successfully');
+          this.loadProducts();
+        } else {
+          alert('Failed to delete all products: ' + result.message);
+        }
+      } catch (error) {
+        console.error('Error deleting all products:', error);
+        alert('Error deleting all products. Please try again.');
+      }
+    },
     triggerFileInput() {
       this.$refs.fileInput.click()
     },
@@ -171,15 +217,14 @@ export default {
         const data = await response.json()
         
         if (data.success) {
-          alert('Upload successful!') 
+          console.log('Upload successful!') 
           this.resetForm()
           this.loadProducts()
         } else {
-          alert('Upload failed: ' + data.message) 
+          console.log('Upload failed: ' + data.message) 
         }
       } catch (err) {
         console.error('Error:', err)
-        alert('Upload failed: Network error')
       }
     },
     resetForm() {

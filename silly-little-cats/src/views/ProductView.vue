@@ -6,7 +6,7 @@
     
     <div class="product-container" v-if="product">
       <div class="product-image-section">
-        <img :src="product.image" :alt="product.name" />
+        <img v-bind:src="'/images/' + product.image" :alt="product.name" />  
         <div class="social-stats">
           <div class="stat">
             <i class="fab fa-instagram"></i>
@@ -74,7 +74,7 @@ export default {
       try {
         const res = await fetch(`http://localhost:3000/api/get-products`)
         const data = await res.json()
-        const productId = this.$route.params.id
+        const productId = parseInt(this.$route.params.id)
         return data.find(p => p.id === productId)
       } catch (error) {
         console.error('Error fetching product:', error)

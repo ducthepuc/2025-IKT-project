@@ -8,7 +8,7 @@
 ## Technológia
 
 *   **Frontend:** Vue.js
-*   **Backend:** Crystal
+*   **Backend:** Python
 
 ## Funkcionalitás
 

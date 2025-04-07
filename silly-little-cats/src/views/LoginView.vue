@@ -1,37 +1,75 @@
 <template>
-    <div class="login-container">
-      <header class="login-header">
-        <h1>Welcome!</h1>
-        <p>Log in to your account</p>
-      </header>
-      <main class="login-main">
-        <form class="login-form">
-          <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Enter your username">
-          </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter your password">
-          </div>
-          <button type="submit" class="login-button">Log In</button>
-          <p class="signup-link">Don't have an account? <router-link to="/register">Register</router-link></p>
-        </form>
-      </main>
-      <footer class="login-footer">
-        <p>&copy; 2025 SLC</p>
-      </footer>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'LoginView',
+  <div class="login-container">
+    <header class="login-header">
+      <h1>Welcome!</h1>
+      <p>Log in to your account</p>
+    </header>
+    <main class="login-main">
+      <form class="login-form" @submit.prevent="login">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" v-model="loginData.email" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" v-model="loginData.password" placeholder="Enter your password">
+        </div>
+        <button type="submit" class="login-button">Log In</button>
+        <p class="error-message" v-if="loginError">{{ loginError }}</p>
+        <p class="signup-link">Don't have an account? <router-link to="/register">Register</router-link></p>
+      </form>
+    </main>
+    <footer class="login-footer">
+      <p>&copy; 2025 SLC</p>
+    </footer>
+  </div>
+</template>
 
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'LoginView',
+  data() {
+    return {
+      loginData: {
+        email: '',
+        password: ''
+      },
+      loginError: null
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        const formData = new FormData();
+        formData.append('email', this.loginData.email);
+        formData.append('password', this.loginData.password);
+
+        const response = await axios.post('http://localhost:3000/api/get-users', formData);
+        const users = response.data;
+
+        const user = users.find(
+            u => u.email === this.loginData.email && u.password === this.loginData.password
+        );
+
+        if (user) {
+          console.log('Login successful!', user);
+          localStorage.setItem('user', JSON.stringify(user));
+          this.$router.push('/');
+        } else {
+          this.loginError = 'Invalid email or password.';
+        }
+      } catch (error) {
+        console.error('Login failed:', error);
+        this.loginError = 'Login failed. Please try again later.';
+      }
+    }
   }
-  </script>
-  
-  <style scoped>
+};
+</script>
+
+<style scoped>
   .login-container {
     display: flex;
     flex-direction: column;

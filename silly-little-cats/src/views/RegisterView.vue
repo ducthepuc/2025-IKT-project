@@ -1,43 +1,93 @@
 <template>
-    <div class="register-container">
-      <header class="register-header">
-        <h1>Join Us!</h1>
-        <p>Create your new account</p>
-      </header>
-      <main class="register-main">
-        <form class="register-form">
-          <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Choose a username">
-          </div>
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Enter your email address">
-          </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Create a password">
-          </div>
-          <div class="form-group">
-            <label for="confirm-password">Confirm Password:</label>
-            <input type="password" id="confirm-password" placeholder="Confirm your password">
-          </div>
-          <button type="submit" class="register-button">Sign Up</button>
-          <p class="login-link">Already have an account? <router-link to="/login">Log in</router-link></p>
-        </form>
-      </main>
-      <footer class="register-footer">
-        <p>&copy; 2025 My Awesome App</p>
-      </footer>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'RegisterView',
+  <div class="register-container">
+    <header class="register-header">
+      <h1>Join Us!</h1>
+      <p>Create your new account</p>
+    </header>
+    <main class="register-main">
+      <form class="register-form" @submit.prevent="register">
+        <div class="form-group">
+          <label for="name">Username:</label>
+          <input type="text" id="name" v-model="registerData.name" placeholder="Choose a username">
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" v-model="registerData.email" placeholder="Enter your email address">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" v-model="registerData.password" placeholder="Create a password">
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password:</label>
+          <input type="password" id="confirm-password" v-model="registerData.confirmPassword" placeholder="Confirm your password">
+        </div>
+        <button type="submit" class="register-button" :disabled="isSubmitting">Sign Up</button>
+        <p class="error-message" v-if="registrationError">{{ registrationError }}</p>
+        <p class="login-link">Already have an account? <router-link to="/login">Log in</router-link></p>
+      </form>
+    </main>
+    <footer class="register-footer">
+      <p>&copy; 2025 My Awesome App</p>
+    </footer>
+  </div>
+</template>
 
+<script>
+import axios from 'axios';
+
+export default {
+  name: 'RegisterView',
+  data() {
+    return {
+      registerData: {
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      },
+      registrationError: null,
+      isSubmitting: false
+    };
+  },
+  methods: {
+    async register() {
+      if (this.registerData.password !== this.registerData.confirmPassword) {
+        this.registrationError = 'Passwords do not match.';
+        return;
+      }
+
+      this.isSubmitting = true;
+      this.registrationError = null;
+
+      try {
+        const formData = new FormData();
+        formData.append('name', this.registerData.name);
+        formData.append('email', this.registerData.email);
+        formData.append('password', this.registerData.password);
+
+        const response = await axios.post('http://localhost:3000/api/add-user', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (response.data.success) {
+          console.log('Registration successful!', response.data);
+          this.$router.push('/login');
+        } else {
+          this.registrationError = response.data.message || 'Registration failed. Please try again.';
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        this.registrationError = 'Registration failed. Please check your connection and try again.';
+      } finally {
+        this.isSubmitting = false;
+      }
+    }
   }
-  </script>
+};
+</script>
   
   <style scoped>
   .register-container {

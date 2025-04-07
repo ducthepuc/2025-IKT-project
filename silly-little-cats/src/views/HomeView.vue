@@ -19,13 +19,15 @@
         <h1>Shop Section</h1>
         <div class="product-grid">
           <ProductCard
-            :id="product.id.toString()"
+            :id=parseInt(product.id)
             v-for="product in filteredProducts"
             :key="product.name"
             :item_name="product.name"
             :item_price="formatPrice(product.price)"
-            :image_path= "`/images/${product.image}`"  
+            :image_path="'/images/'+product.image"
             :followers="product.instagram"
+            :tiktok="product.tiktok"
+            :youtube="product.youtube"
             @view-button-clicked="handleViewButtonClicked"
           />
         </div>
@@ -72,7 +74,6 @@ export default {
       this.searchQuery = String(query);
     },
     handleViewButtonClicked(id) {
-      console.log(id)
       this.router.push(`/product/${id}`);
     },
     formatPrice(price) {

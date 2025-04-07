@@ -10,7 +10,7 @@
       <h3>{{ item_name }}</h3>
       <p class="price">{{ item_price }}</p>
       <p class="followers">
-        <i class="fas fa-users"></i> {{ formatFollowers(followers) }}
+        <i class="fas fa-users"></i> {{ formatFollowers(totalFollowers) }}
       </p>
       <button class="view-button" @click="$emit('view-button-clicked', id)">
         <i class="fas fa-paw"></i> Meet Me
@@ -26,9 +26,19 @@ export default {
     item_name: String,
     item_price: String,
     image_path: String,
-    followers: {
+    followers: Number,
+    tiktok: {
       type: Number,
       default: 0
+    },
+    youtube: {
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    totalFollowers() {
+      return (this.followers || 0) + (this.tiktok || 0) + (this.youtube || 0)
     }
   },
   methods: {

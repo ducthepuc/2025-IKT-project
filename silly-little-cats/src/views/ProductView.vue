@@ -6,7 +6,7 @@
     
     <div class="product-container" v-if="product">
       <div class="product-image-section">
-        <img v-bind:src="'/images/' + product.image" :alt="product.name" />  
+        <img :src="'/images/' + product.image" :alt="product.name" />
         <div class="social-stats">
           <div class="stat">
             <i class="fab fa-instagram"></i>
@@ -121,6 +121,19 @@ export default {
   border-radius: 20px;
   padding: 40px;
   box-shadow: var(--card-shadow);
+}
+
+.product-image-section {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.product-image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .social-stats {

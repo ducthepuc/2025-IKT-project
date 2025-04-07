@@ -2,13 +2,26 @@
   <div id="app" :class="{ 'dark-mode': isDark }">
     <nav class="navbar">
       <div class="nav-content">
-        <div class="nav-brand">
-          <i class="fas fa-cat"></i> SLC
-        </div>
+        <router-link to="/" class="nav-brand">
+          <i class="fas fa-cat"></i>
+          <span>Silly Little Cats</span>
+        </router-link>
         <div class="nav-links">
-          <router-link to="/">Home</router-link>
-          <router-link to="/about">About</router-link>
-          <router-link to="/admin">Admin</router-link>
+          <router-link to="/">
+            <i class="fas fa-home"></i> Home
+          </router-link>
+          <router-link to="/about">
+            <i class="fas fa-info-circle"></i> About
+          </router-link>
+          <router-link to="/admin">
+            <i class="fas fa-user-shield"></i> Admin
+          </router-link>
+          <router-link to="/login">
+            <i class="fas fa-user-shield"></i> Login
+          </router-link>
+          <router-link to="/register">
+            <i class="fas fa-user-shield"></i> Register
+          </router-link>
         </div>
       </div>
     </nav>
@@ -44,6 +57,9 @@ export default {
   background-color: var(--card-bg);
   box-shadow: var(--card-shadow);
   padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .nav-content {
@@ -52,12 +68,21 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
 }
 
 .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--accent-color);
+}
+
+.nav-brand i {
+  font-size: 1.8rem;
 }
 
 .nav-links {
@@ -66,18 +91,25 @@ export default {
 }
 
 .nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   text-decoration: none;
   color: var(--text-primary);
   font-weight: 500;
-  transition: color 0.2s;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
 .nav-links a:hover {
+  background-color: var(--bg-secondary);
   color: var(--accent-color);
 }
 
 .nav-links a.router-link-active {
-  color: var(--accent-color);
+  background-color: var(--accent-color);
+  color: white;
 }
 
 @media (max-width: 768px) {

@@ -43,4 +43,36 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach(async (to, from, next) => {
+  const protectedRoutes = ['/admin'];
+  const token = localStorage.getItem('authToken');
+  console.log(token)
+
+  if (protectedRoutes.includes(to.path)) {
+    console.log(token)
+    if (!token) return next('/login');
+
+    try {
+      const res = await fetch('http://localhost:3000/api/validate-token', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (res.status !== 200) {
+        localStorage.removeItem('authToken');
+        return next('/login');
+      }
+
+      return next();
+    } catch {
+      localStorage.removeItem('authToken');
+      return next('/login');
+    }
+  }
+
+  next();
+});
+
+
 export default router

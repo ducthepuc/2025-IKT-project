@@ -200,31 +200,43 @@ export default {
       this.dropZoneText = file.name
     },
     async handleSubmit() {
+      if (!this.selectedFile) {
+        alert('Please select an image to upload.')
+        return
+      }
       try {
         const formData = new FormData()
-        Object.entries(this.form).forEach(([key, value]) => {
-          formData.append(key, value || '0')
-        })
-        if (this.selectedFile) {
-          formData.append('image', this.selectedFile)
+
+        const metadata = {
+          name: this.form.name,
+          price: this.form.price,
+          description: this.form.description,
+          instagram: this.form.instagram,
+          tiktok: this.form.tiktok,
+          youtube: this.form.youtube,
         }
+
+        console.log(metadata);
+        formData.append('metadata', JSON.stringify(metadata))
+        formData.append('file', this.selectedFile)
 
         const response = await fetch('http://localhost:3000/api/upload', {
           method: 'POST',
-          body: formData
+          body: formData,
         })
-        
+
         const data = await response.json()
-        
+
         if (data.success) {
-          console.log('Upload successful!') 
+          alert('Upload successful!')
           this.resetForm()
           this.loadProducts()
         } else {
-          console.log('Upload failed: ' + data.message) 
+          alert('Upload failed: ' + data.message)
         }
       } catch (err) {
-        console.error('Error:', err)
+        console.error('Upload error:', err)
+        alert('Error uploading product. Try again.')
       }
     },
     resetForm() {

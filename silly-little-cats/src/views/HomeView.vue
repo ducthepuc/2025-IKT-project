@@ -12,6 +12,7 @@
         <button class="theme-toggle" @click="toggleTheme">
           <i :class="isDark ? 'fas fa-sun' : 'fas fa-moon'"></i>
         </button>
+        <button class="logout-btn" @click="logout">Logout</button>
       </div>
     </header>
     <main>
@@ -19,12 +20,12 @@
         <h1>Shop Section</h1>
         <div class="product-grid">
           <ProductCard
-            :id=parseInt(product.id)
+            :id="parseInt(product.id)"
             v-for="product in filteredProducts"
             :key="product.name"
             :item_name="product.name"
             :item_price="formatPrice(product.price)"
-            :image_path="'/images/'+product.image"
+            :image_path="'/images/' + product.image"
             :followers="product.instagram"
             :tiktok="product.tiktok"
             :youtube="product.youtube"
@@ -43,8 +44,8 @@
 import ProductCard from '../components/ProductCard.vue';
 import { BFormInput } from 'bootstrap-vue-next';
 import { useRouter } from 'vue-router';
-import { useThemeStore } from '../stores/themeStore'
-import { storeToRefs } from 'pinia'
+import { useThemeStore } from '../stores/themeStore';
+import { storeToRefs } from 'pinia';
 
 export default {
   name: 'HomeView',
@@ -54,20 +55,20 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const themeStore = useThemeStore()
-    const { isDark } = storeToRefs(themeStore)
-    const { toggleTheme } = themeStore
-    
+    const themeStore = useThemeStore();
+    const { isDark } = storeToRefs(themeStore);
+    const { toggleTheme } = themeStore;
+
     return { router, isDark, toggleTheme };
   },
   data() {
     return {
       products: [],
-      searchQuery: String(""),
-    }
+      searchQuery: '',
+    };
   },
   async created() {
-    this.products = await this.fetchProducts()
+    this.products = await this.fetchProducts();
   },
   methods: {
     updateSearchList(query) {
@@ -77,26 +78,29 @@ export default {
       this.router.push(`/product/${id}`);
     },
     formatPrice(price) {
-      if (!price) return ''
-      return `$${price.toLocaleString()}`
+      if (!price) return '';
+      return `$${price.toLocaleString()}`;
     },
     async fetchProducts() {
-      const res = await fetch(`http://localhost:3000/api/get-products`)
-
+      const res = await fetch(`http://localhost:3000/api/get-products`);
       const data = await res.json();
-      console.log(data)
+      console.log(data);
       return data;
-    }
+    },
+    logout() {
+      localStorage.removeItem('authToken');
+      this.router.push('/login');
+    },
   },
   computed: {
     filteredProducts() {
       if (!this.searchQuery) return this.products;
-      return this.products.filter((product) => {
-        return product.name.toLowerCase().includes(this.searchQuery.toLowerCase());
-      });
+      return this.products.filter((product) =>
+        product.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -161,23 +165,47 @@ export default {
   transform: rotate(15deg);
 }
 
+.logout-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background: #c82333;
+}
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
     gap: 20px;
     text-align: center;
   }
-  
+
   .header h1 {
     font-size: 1.8rem;
   }
-  
+
   .header-controls {
     width: 100%;
+    flex-direction: column;
+    gap: 10px;
   }
-  
+
   .search-input {
     flex: 1;
+    width: 100%;
+  }
+
+  .theme-toggle,
+  .logout-btn {
+    width: 100%;
+    border-radius: 12px;
   }
 }
 
@@ -186,17 +214,18 @@ export default {
     width: 100%;
     padding: 0.5rem;
   }
-  
+
   .header h1 {
     font-size: 1.5rem;
   }
-  
+
   .header-controls {
     flex-direction: column;
     gap: 10px;
   }
-  
-  .theme-toggle {
+
+  .theme-toggle,
+  .logout-btn {
     width: 100%;
     border-radius: 12px;
   }

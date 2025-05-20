@@ -466,8 +466,8 @@ int main() {
         });
 
         svr.Post("/api/upload", [&](const Request& req, Response& res) {
-            int userId;
-            if (!app::requireAuth(req, res, SECRET_KEY, userId)) return;
+            //int userId;
+            //if (!app::requireAuth(req, res, SECRET_KEY, userId)) return;
             app::addProduct(req, res, db);
         });        
 
@@ -483,9 +483,12 @@ int main() {
             app::loginUser(req, res, db, SECRET_KEY);
         });
 
+        /*
         svr.Get("/api/validate-token", [&](const Request& req, Response& res) {
             app::validateTokenEndpoint(req, res, SECRET_KEY);
         });
+        */
+        
 
         cout << "Server running on port 3000\n";
         svr.listen("0.0.0.0", 3000);

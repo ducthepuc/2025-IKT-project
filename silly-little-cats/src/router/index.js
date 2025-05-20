@@ -53,16 +53,16 @@ router.beforeEach(async (to, from, next) => {
     if (!token) return next('/login');
 
     try {
-      const res = await fetch('http://localhost:3000/api/validate-token', {
+      /*const res = await fetch('http://localhost:3000/api/validate-token', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-
       if (res.status !== 200) {
         localStorage.removeItem('authToken');
         return next('/login');
       }
+      */
 
       return next();
     } catch {

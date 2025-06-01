@@ -1,0 +1,14 @@
+services:
+  backend:
+    build: ./admin2
+    image: idk101/slc-backend:latest
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  frontend:
+    build: ./silly-little-cats
+    image: idk101/slc-frontend:latest
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

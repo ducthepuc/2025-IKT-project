@@ -86,7 +86,7 @@ bool verifyToken(const std::string& token, const std::string& secret, int& userI
 void setCORS(Response &res) {
     res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
     res.set_header("Access-Control-Allow-Origin", "*");
-    res.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE");
 
 }
 
